@@ -151,9 +151,13 @@ static const CGFloat SVProgressHUDParallaxDepthPoints = 10;
 
 #pragma mark - Show then dismiss methods
 
-+ (void)showSuccessWithStatus:(NSString *)string {
++ (void)showSuccessWithStatus:(NSString*)string {
+    [self showSuccessWithStatus:string duration:0];
+}
+
++ (void)showSuccessWithStatus:(NSString*)string duration:(NSTimeInterval)displayInterval {
     [self sharedView];
-    [self showImage:SVProgressHUDSuccessImage status:string];
+    [self showImage:SVProgressHUDSuccessImage status:string duration:displayInterval];
 }
 
 + (void)showErrorWithStatus:(NSString *)string {
@@ -162,7 +166,13 @@ static const CGFloat SVProgressHUDParallaxDepthPoints = 10;
 }
 
 + (void)showImage:(UIImage *)image status:(NSString *)string {
-    NSTimeInterval displayInterval = [[SVProgressHUD sharedView] displayDurationForString:string];
+    [self showImage:image status:string duration:0];
+}
+
++ (void)showImage:(UIImage*)image status:(NSString*)string duration:(NSTimeInterval)displayInterval {
+    if (displayInterval <= 0) {
+      displayInterval = [[SVProgressHUD sharedView] displayDurationForString:string];
+    }
     [[self sharedView] showImage:image status:string duration:displayInterval];
 }
 
